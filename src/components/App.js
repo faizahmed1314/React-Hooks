@@ -3,50 +3,27 @@ import BasicNav from "./BasicNav";
 import "./App.css";
 import MyHooks from "./MyHooks";
 import Showcase from "./Showcase";
-import Context from "./UserContext";
+import { UserProvider, UserConsumer } from "./UserContext";
 
 class App extends Component {
-  state = {
-    user: {
-      name: "faiz",
-      email: "Faiz@gmail.com",
-      language: ["C#", "Jave", "Javascript", "Dart", "kotlin"],
-    },
-    isAuthenticated: true,
-  };
-  login = () => {
-    this.setState({ isAuthenticated: true });
-  };
-  logout = () => {
-    this.setState({ isAuthenticated: false });
-  };
-  addToShowCase = (item) => {
-    const user = { ...this.state.user };
-    user.language.push(item);
-    this.setState({ user });
-  };
-
   render() {
     return (
-      <Context.Provider
-        value={{
-          ...this.state,
-          addToShowCase: this.addToShowCase,
-          login: this.login,
-          logout: this.logout,
-        }}
-      >
+      <UserProvider>
         <div className="container">
           <div className="row">
-            <div className="col-sm-6 offset-sm-2">
-              <h1>Context API Crash Course</h1>
-              <hr />
-              <BasicNav />
-              {this.state.isAuthenticated && <Showcase />}
-            </div>
+            <UserConsumer>
+              {({ isAuthenticated }) => (
+                <div className="col-sm-6 offset-sm-2">
+                  <h1>Context API Crash Course</h1>
+                  <hr />
+                  <BasicNav />
+                  {isAuthenticated && <Showcase />}
+                </div>
+              )}
+            </UserConsumer>
           </div>
         </div>
-      </Context.Provider>
+      </UserProvider>
     );
   }
 }

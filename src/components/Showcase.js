@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Context from "./UserContext";
+import { UserConsumer, UserContext } from "./UserContext";
 class AddItem extends Component {
   state = {
     value: "",
@@ -32,10 +32,10 @@ class AddItem extends Component {
     );
   }
 }
-AddItem.contextType = Context;
+AddItem.contextType = UserContext;
 const ItemList = () => {
   return (
-    <Context.Consumer>
+    <UserConsumer>
       {({ user }) => (
         <ul className="list-group">
           {user.language.map((lang) => (
@@ -45,12 +45,12 @@ const ItemList = () => {
           ))}
         </ul>
       )}
-    </Context.Consumer>
+    </UserConsumer>
   );
 };
 const Showcase = () => {
   return (
-    <Context.Consumer>
+    <UserConsumer>
       {({ user }) => (
         <div>
           <h3>{user.name} Showcase :</h3>
@@ -58,7 +58,7 @@ const Showcase = () => {
           <ItemList />
         </div>
       )}
-    </Context.Consumer>
+    </UserConsumer>
   );
 };
 export default Showcase;

@@ -1,9 +1,9 @@
 import React from "react";
-import Context from "./UserContext";
+import { UserConsumer } from "./UserContext";
 
 const LogInNav = () => {
   return (
-    <Context.Consumer>
+    <UserConsumer>
       {({ user, logout }) => (
         <div>
           <p>
@@ -15,12 +15,12 @@ const LogInNav = () => {
           </ul>
         </div>
       )}
-    </Context.Consumer>
+    </UserConsumer>
   );
 };
 const LogoutNav = () => {
   return (
-    <Context.Consumer>
+    <UserConsumer>
       {({ login }) => (
         <div>
           <p>Please click the login button bellow</p>
@@ -32,7 +32,7 @@ const LogoutNav = () => {
           </ul>
         </div>
       )}
-    </Context.Consumer>
+    </UserConsumer>
   );
 };
 
@@ -40,11 +40,11 @@ const LogoutNav = () => {
 
 const BasicNav = () => {
   return (
-    <Context.Consumer>
+    <UserConsumer>
       {({ isAuthenticated }) =>
         isAuthenticated ? <LogInNav /> : <LogoutNav />
       }
-    </Context.Consumer>
+    </UserConsumer>
   );
   // if (isAuthenticated) {
   //   return <LogInNav logout={logout} />;
