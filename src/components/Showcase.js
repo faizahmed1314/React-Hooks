@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Context from "./UserContext";
 class AddItem extends Component {
   state = {
     value: "",
@@ -8,7 +9,7 @@ class AddItem extends Component {
   };
   addItem = () => {
     if (this.state.value) {
-      this.props.addToShowCase(this.state.value);
+      this.context.addToShowCase(this.state.value);
       this.setState({ value: "" });
     }
   };
@@ -31,24 +32,33 @@ class AddItem extends Component {
     );
   }
 }
-const ItemList = ({ items }) => {
+AddItem.contextType = Context;
+const ItemList = () => {
   return (
-    <ul className="list-group">
-      {items.map((lang) => (
-        <li className="list-group-item" key={lang}>
-          {lang}
-        </li>
-      ))}
-    </ul>
+    <Context.Consumer>
+      {({ user }) => (
+        <ul className="list-group">
+          {user.language.map((lang) => (
+            <li className="list-group-item" key={lang}>
+              {lang}
+            </li>
+          ))}
+        </ul>
+      )}
+    </Context.Consumer>
   );
 };
-const Showcase = ({ user, addToShowCase }) => {
+const Showcase = () => {
   return (
-    <div>
-      <h3>{user.name} Showcase :</h3>
-      <AddItem addToShowCase={addToShowCase} />
-      <ItemList items={user.language} />
-    </div>
+    <Context.Consumer>
+      {({ user }) => (
+        <div>
+          <h3>{user.name} Showcase :</h3>
+          <AddItem />
+          <ItemList />
+        </div>
+      )}
+    </Context.Consumer>
   );
 };
 export default Showcase;

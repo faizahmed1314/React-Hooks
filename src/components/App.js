@@ -3,6 +3,7 @@ import BasicNav from "./BasicNav";
 import "./App.css";
 import MyHooks from "./MyHooks";
 import Showcase from "./Showcase";
+import Context from "./UserContext";
 
 class App extends Component {
   state = {
@@ -27,24 +28,25 @@ class App extends Component {
 
   render() {
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col-sm-6 offset-sm-2">
-            <h1>Context API Crash Course</h1>
-            <hr />
-            <BasicNav
-              login={this.login}
-              logout={this.logout}
-              user={this.state.user}
-              isAuthenticated={this.state.isAuthenticated}
-            />
-            <Showcase
-              addToShowCase={this.addToShowCase}
-              user={this.state.user}
-            />
+      <Context.Provider
+        value={{
+          ...this.state,
+          addToShowCase: this.addToShowCase,
+          login: this.login,
+          logout: this.logout,
+        }}
+      >
+        <div className="container">
+          <div className="row">
+            <div className="col-sm-6 offset-sm-2">
+              <h1>Context API Crash Course</h1>
+              <hr />
+              <BasicNav />
+              {this.state.isAuthenticated && <Showcase />}
+            </div>
           </div>
         </div>
-      </div>
+      </Context.Provider>
     );
   }
 }

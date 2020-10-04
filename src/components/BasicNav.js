@@ -1,40 +1,54 @@
 import React from "react";
+import Context from "./UserContext";
 
-const LogInNav = ({ logout, user }) => {
+const LogInNav = () => {
   return (
-    <div>
-      <p>
-        Hello , {user.name}, You are logged in with {user.email}
-      </p>
-      <ul>
-        <li>Dashboard</li>
-        <li>
-          <button onClick={logout}>Logout</button>
-        </li>
-      </ul>
-    </div>
+    <Context.Consumer>
+      {({ user, logout }) => (
+        <div>
+          <p>
+            Hello , {user.name}, You are logged in with {user.email}
+          </p>
+          <ul>
+            <li>Dashboard</li>
+            <li onClick={logout}>Logout</li>
+          </ul>
+        </div>
+      )}
+    </Context.Consumer>
   );
 };
-const LogoutNav = ({ login }) => {
+const LogoutNav = () => {
   return (
-    <div>
-      <p>Please click the login button bellow</p>
-      <ul>
-        <li>
-          <button onClick={login}>Login</button>
-        </li>
-        <li>Register</li>
-      </ul>
-    </div>
+    <Context.Consumer>
+      {({ login }) => (
+        <div>
+          <p>Please click the login button bellow</p>
+          <ul>
+            <li>
+              <button onClick={login}>Login</button>
+            </li>
+            <li>Register</li>
+          </ul>
+        </div>
+      )}
+    </Context.Consumer>
   );
 };
 
 //Main Component
 
-const BasicNav = ({ login, logout, isAuthenticated, user }) => {
-  if (isAuthenticated) {
-    return <LogInNav logout={logout} user={user} />;
-  }
-  return <LogoutNav login={login} />;
+const BasicNav = () => {
+  return (
+    <Context.Consumer>
+      {({ isAuthenticated }) =>
+        isAuthenticated ? <LogInNav /> : <LogoutNav />
+      }
+    </Context.Consumer>
+  );
+  // if (isAuthenticated) {
+  //   return <LogInNav logout={logout} />;
+  // }
+  // return <LogoutNav login={login} />;
 };
 export default BasicNav;
