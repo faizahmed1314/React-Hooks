@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { UserContext } from "./UserContext";
 
 function MyHooks() {
   const [count, setCount] = useState(100);
   const [age, setAge] = useState(26);
   const [post, setPost] = useState({});
+  const { user } = useContext(UserContext);
+
   useEffect(() => {
     console.log("Count Updated", count);
   }, [count]);
@@ -29,6 +32,11 @@ function MyHooks() {
       <h3>Age : {age}</h3>
       <button onClick={() => setAge(age + 1)}>Increase</button>
       <button onClick={() => setAge(age - 1)}>Decrease</button>
+      <hr></hr>
+      <div>
+        <h1> My name is {user.name}</h1>
+        <h1>My Email is {user.email}</h1>
+      </div>
       <div>
         {Object.keys(post).length > 0 && (
           <>
